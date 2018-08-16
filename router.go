@@ -40,6 +40,9 @@ type Router interface {
 	// NotFound sets the handlers that are called when a no route matches a request. Throws a basic 404 by default.
 	NotFound(...Handler)
 
+	// Add by shines77
+	GetAllRoutes() []*route
+
 	// Handle is the entry point for routing. This is used as a martini.Handler
 	Handle(http.ResponseWriter, *http.Request, Context)
 }
@@ -172,6 +175,10 @@ func (r *router) appendRoute(rt *route) {
 func (r *router) getRoutes() []*route {
 	r.routesLock.RLock()
 	defer r.routesLock.RUnlock()
+	return r.routes[:]
+}
+
+func (r *router) GetAllRoutes() []*route {
 	return r.routes[:]
 }
 
